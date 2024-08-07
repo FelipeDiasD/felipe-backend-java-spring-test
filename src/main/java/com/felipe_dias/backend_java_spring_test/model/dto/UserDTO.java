@@ -1,18 +1,9 @@
-package model;
+package com.felipe_dias.backend_java_spring_test.model.dto;
 
-public class User {
+public class UserDTO {
 
-    private Long id;
     private String username;
     private String nivel;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

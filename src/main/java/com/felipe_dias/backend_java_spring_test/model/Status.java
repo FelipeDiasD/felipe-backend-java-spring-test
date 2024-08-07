@@ -1,4 +1,4 @@
-package model;
+package com.felipe_dias.backend_java_spring_test.model;
 
 public enum Status {
 

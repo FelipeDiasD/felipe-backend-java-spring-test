@@ -1,15 +1,22 @@
-package model;
+package com.felipe_dias.backend_java_spring_test.model;
+
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity(name = "tb_task")
 public class Task {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String description;
     private LocalDate createdAt;
     private LocalDate dueDate;
     private Status status;
+
+    @ManyToOne
     private User user;
 
     public Long getId() {

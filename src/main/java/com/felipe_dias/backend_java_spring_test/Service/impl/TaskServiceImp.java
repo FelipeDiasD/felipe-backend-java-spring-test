@@ -1,11 +1,11 @@
-package Service.impl;
+package com.felipe_dias.backend_java_spring_test.Service.impl;
 
-import Service.TaskService;
-import model.Status;
-import model.Task;
+import com.felipe_dias.backend_java_spring_test.Service.TaskService;
+import com.felipe_dias.backend_java_spring_test.model.Task;
+import com.felipe_dias.backend_java_spring_test.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.TaskRepository;
+import com.felipe_dias.backend_java_spring_test.repository.TaskRepository;
 
 import java.util.List;
 @Service

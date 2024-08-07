@@ -1,7 +1,7 @@
-package Service;
+package com.felipe_dias.backend_java_spring_test.Service;
 
-import model.Status;
-import model.Task;
+import com.felipe_dias.backend_java_spring_test.model.Task;
+import com.felipe_dias.backend_java_spring_test.model.Status;
 
 import java.util.List;
 
