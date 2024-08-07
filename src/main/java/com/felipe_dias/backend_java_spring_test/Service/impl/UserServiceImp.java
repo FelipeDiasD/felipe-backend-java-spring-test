@@ -1,5 +1,6 @@
 package com.felipe_dias.backend_java_spring_test.Service.impl;
 
+import com.felipe_dias.backend_java_spring_test.Controller.Exceptions.ResourceNotFoundException;
 import com.felipe_dias.backend_java_spring_test.Service.UserService;
 import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.dto.UserDTO;
@@ -22,12 +23,13 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void createUser(User user) {
+
         if(user.getUsername().isEmpty() || user.getUsername() == null){
-            //TODO: lançar exceção
+            throw new IllegalArgumentException("CAMPO USERNAME OBRIGATORIO");
         }
 
-        if(user.getNivel().isEmpty() || user.getNivel() != "user" || user.getNivel() != "admin"){
-            //TODO: lançar exceção
+        if(user.getNivel().isEmpty() || user.getNivel() == null){
+            throw new IllegalArgumentException("CAMPO NIVEL OBRIGATORIO");
         }
         userRepository.save(user);
     }
@@ -38,7 +40,7 @@ public class UserServiceImp implements UserService {
         User foundUser = userRepository.findById(id).get();
 
         if(!userRepository.existsById(id)){
-            //TODO: lançar exceção
+            throw new ResourceNotFoundException(id);
         }
 
         if(user.getUsername() != null || !user.getUsername().isEmpty()){
