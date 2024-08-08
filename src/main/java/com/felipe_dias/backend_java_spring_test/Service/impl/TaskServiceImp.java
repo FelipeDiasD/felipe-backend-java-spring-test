@@ -83,17 +83,13 @@ public class TaskServiceImp implements TaskService {
             foundTask.setDueDate(task.getDueDate());
         }
 
-        if(task.getStatus().equals(Status.EM_ANDAMENTO)){
-            foundTask.setStatus(Status.EM_ANDAMENTO);
-        }
-        if(task.getStatus().equals(Status.CONCLUIDA)){
-            foundTask.setStatus(Status.CONCLUIDA);
-        }
-
         if(task.getStatus().getCode() > 3 || task.getStatus().getCode() < 1){
             throw  new IllegalArgumentException("INVALID STATUS");
         }
 
+        if(task.getStatus() != null) {
+            foundTask.setStatus(task.getStatus());
+        }
 
         taskRepository.save(foundTask);
     }
@@ -154,8 +150,8 @@ public class TaskServiceImp implements TaskService {
         User taskUser = userRepository.findById(taskObj.getUserID()).get();
 
         Task taskToCreate =
-                new Task(null, taskObj.getTitle(),
-                                  taskObj.getDescription(),null,
+                new Task(taskObj.getTitle(),
+                                  taskObj.getDescription(),
                                   taskObj.getDueDate(),
                                   taskObj.getStatus(), taskUser);
 

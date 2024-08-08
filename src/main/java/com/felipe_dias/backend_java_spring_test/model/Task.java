@@ -53,6 +53,15 @@ public class Task implements Serializable {
         this.user = user;
     }
 
+    public Task(String title, String description, Date dueDate, Status status, User user) {
+
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

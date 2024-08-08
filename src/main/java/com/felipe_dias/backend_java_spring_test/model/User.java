@@ -2,29 +2,44 @@ package com.felipe_dias.backend_java_spring_test.model;
 
 import com.felipe_dias.backend_java_spring_test.model.enums.Nivel;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "tb_user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String nivel;
 
+    @Column
+    private String password;
+
     public User(){
     }
 
-    public User(Long id, String username, Nivel nivel) {
+    public User(Long id, String username, Nivel nivel, String password) {
         this.id = id;
         this.username = username;
         setNivel(nivel);
+        this.password = password;
+    }
+
+    public User(String username, Nivel nivel, String password) {
+        this.username = username;
+        setNivel(nivel);
+        this.password = password;
     }
 
 
@@ -36,9 +51,13 @@ public class User {
         this.id = id;
     }
 
+
+
     public String getUsername() {
         return username;
     }
+
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -52,6 +71,11 @@ public class User {
         this.nivel = nivel.getLabel();
     }
 
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,5 +87,41 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+
+    // ------------Security config---------------
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.nivel.equals(Nivel.ADMIN.getLabel())){
+            return List.of(new SimpleGrantedAuthority("ADMIN"));
+        }
+        return List.of(new SimpleGrantedAuthority("USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

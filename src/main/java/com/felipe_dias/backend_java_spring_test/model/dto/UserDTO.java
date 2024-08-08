@@ -12,6 +12,7 @@ public class UserDTO implements Serializable {
 
     private String username;
     private Nivel nivel;
+    private String password;
 
     public UserDTO(){
 
@@ -20,6 +21,7 @@ public class UserDTO implements Serializable {
     public UserDTO(User userObj){
         this.username = userObj.getUsername();
         this.nivel = userObj.getNivel();
+        this.password = userObj.getPassword();
     }
 
     public String getUsername() {
@@ -36,5 +38,13 @@ public class UserDTO implements Serializable {
 
     public void setNivel(Nivel nivel) {
         this.nivel = nivel;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

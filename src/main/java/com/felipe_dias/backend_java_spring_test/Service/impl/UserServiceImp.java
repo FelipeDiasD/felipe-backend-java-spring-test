@@ -6,8 +6,8 @@ import com.felipe_dias.backend_java_spring_test.model.Task;
 import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.dto.UserDTO;
 import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
-import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,16 +32,22 @@ public class UserServiceImp implements UserService {
     @Override
     public User createUser(User user) {
 
+        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+            throw new IllegalArgumentException("USERNAME ALREADY IN USE");
+        }
+
         if(user.getUsername().isEmpty() || user.getUsername() == null){
-            throw new IllegalArgumentException("CAMPO USERNAME OBRIGATORIO");
+            throw new IllegalArgumentException("USERNAME CANNOT BE EMPTY/NULL");
         }
 
         if(user.getNivel() == null){
-            throw new IllegalArgumentException("CAMPO NIVEL OBRIGATORIO");
+            throw new IllegalArgumentException("USERNAME CANNOT BE EMPTY/NULL");
         }
 
+        if(user.getPassword().isEmpty() || user.getPassword() == null){
+            throw new IllegalArgumentException("PASSWORD CANNOT BE EMPTY/NULL");
 
-
+        }
 
         return userRepository.save(user);
     }
@@ -58,7 +64,15 @@ public class UserServiceImp implements UserService {
         if(user.getUsername() != null || !user.getUsername().isEmpty()){
             foundUser.setUsername(user.getUsername());
         }
-        //Not possible to change level
+
+        if(user.getPassword() != null || !user.getPassword().isEmpty()){
+
+            String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+            foundUser.setPassword(encodedPassword);
+        }
+
+        //ROLES CANNOT BE CHANGED ONCE CREATED
+
 
         userRepository.save(foundUser);
 
@@ -75,7 +89,11 @@ public class UserServiceImp implements UserService {
     }
 
     public User fromDTO(UserDTO userObj){
-        User userToCreate = new User(null, userObj.getUsername(), userObj.getNivel());
+
+        String password = new BCryptPasswordEncoder().encode(userObj.getPassword());
+
+        User userToCreate = new User(userObj.getUsername(), userObj.getNivel(), password);
+
         return userToCreate;
     }
 
