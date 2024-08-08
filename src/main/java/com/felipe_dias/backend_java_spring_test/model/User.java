@@ -27,6 +27,7 @@ public class User {
         setNivel(nivel);
     }
 
+
     public Long getId() {
         return id;
     }

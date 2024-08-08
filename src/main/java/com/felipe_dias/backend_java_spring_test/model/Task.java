@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity(name = "tb_task")
@@ -26,15 +27,29 @@ public class Task implements Serializable {
     private String description;
 
     @CreationTimestamp
-    private LocalDate createdAt;
+    private Date createdAt;
 
     @Column(nullable = false)
-    private LocalDate dueDate;
+    private Date dueDate;
 
-    private Status status = Status.PENDENTE;
+    private Status status;
 
     @ManyToOne
     private User user;
+
+    public Task(){
+
+    }
+
+    public Task(Long id, String title, String description, Date createdAt, Date dueDate, Status status, User user) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
@@ -60,19 +75,19 @@ public class Task implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 

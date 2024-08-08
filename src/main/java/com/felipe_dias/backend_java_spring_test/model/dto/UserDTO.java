@@ -1,6 +1,7 @@
 package com.felipe_dias.backend_java_spring_test.model.dto;
 
 import com.felipe_dias.backend_java_spring_test.model.User;
+import com.felipe_dias.backend_java_spring_test.model.enums.Nivel;
 
 import java.io.Serializable;
 
@@ -8,8 +9,9 @@ public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
     private String username;
-    private String nivel;
+    private Nivel nivel;
 
     public UserDTO(){
 
@@ -17,7 +19,7 @@ public class UserDTO implements Serializable {
 
     public UserDTO(User userObj){
         this.username = userObj.getUsername();
-        this.nivel = userObj.getNivel().getLabel();
+        this.nivel = userObj.getNivel();
     }
 
     public String getUsername() {
@@ -28,11 +30,11 @@ public class UserDTO implements Serializable {
         this.username = username;
     }
 
-    public String getNivel() {
+    public Nivel getNivel() {
         return nivel;
     }
 
-    public void setNivel(String nivel) {
+    public void setNivel(Nivel nivel) {
         this.nivel = nivel;
     }
 }

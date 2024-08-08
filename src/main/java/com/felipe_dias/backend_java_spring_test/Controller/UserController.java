@@ -4,12 +4,15 @@ import com.felipe_dias.backend_java_spring_test.Service.impl.TaskServiceImp;
 import com.felipe_dias.backend_java_spring_test.Service.impl.UserServiceImp;
 import com.felipe_dias.backend_java_spring_test.model.Task;
 import com.felipe_dias.backend_java_spring_test.model.User;
+import com.felipe_dias.backend_java_spring_test.model.dto.TaskDTO;
 import com.felipe_dias.backend_java_spring_test.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,9 +34,17 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity createUser(@RequestBody User user){
-        userService.createUser(user);
-        return ResponseEntity.ok(user);
+    public ResponseEntity createUser(@RequestBody UserDTO userObj){
+
+        User userToCreate = userService.fromDTO(userObj);
+
+        userToCreate = userService.createUser(userToCreate);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("{id}")
+                .buildAndExpand(userToCreate.getId()).toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
@@ -50,8 +61,9 @@ public class UserController {
 
 
     @GetMapping("/{id}/tasks")
-    public ResponseEntity<List<Task>> getUserTasks(@PathVariable Long userId){
-        List<Task> foundTasks = taskService.getTasksByUser(userId);
+    public ResponseEntity<List<TaskDTO>> getUserTasks(@PathVariable("id") Long userId){
+
+        List<TaskDTO> foundTasks = taskService.getTasksByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(foundTasks);
     }
 }

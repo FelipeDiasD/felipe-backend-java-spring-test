@@ -6,6 +6,7 @@ import com.felipe_dias.backend_java_spring_test.model.Task;
 import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.dto.UserDTO;
 import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
+import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,19 +30,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void createUser(User user) {
+    public User createUser(User user) {
 
         if(user.getUsername().isEmpty() || user.getUsername() == null){
             throw new IllegalArgumentException("CAMPO USERNAME OBRIGATORIO");
         }
 
-        if(user.getNivel().getLabel().isEmpty() || user.getNivel() == null){
+        if(user.getNivel() == null){
             throw new IllegalArgumentException("CAMPO NIVEL OBRIGATORIO");
         }
         //TODO: LIDAR COM O NIVEL DO USUARIO
 
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
@@ -69,6 +70,11 @@ public class UserServiceImp implements UserService {
         }
 
         userRepository.deleteById(id);
+    }
+
+    public User fromDTO(UserDTO userObj){
+        User userToCreate = new User(null, userObj.getUsername(), userObj.getNivel());
+        return userToCreate;
     }
 
 

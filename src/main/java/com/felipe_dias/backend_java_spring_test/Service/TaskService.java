@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface TaskService {
 
-    public List<Task> getAllTasks();
-    public void createTask(Task task);
+    public List<TaskDTO> getAllTasks();
+    public Task createTask(Task task);
     public void updateTask(Long id, TaskDTO task);
     public void deleteTask(Long id);
-    public List<Task> getTasksByStatus(Integer statusCode);
-    public List<Task> getTasksByUser(Long id);
-    public List<Task> orderTaskByDueDate();
+    public List<TaskDTO> getTasksByStatus(Integer statusCode);
+    public List<TaskDTO> getTasksByUser(Long id);
+    public List<TaskDTO> orderTaskByDueDate();
 
 }

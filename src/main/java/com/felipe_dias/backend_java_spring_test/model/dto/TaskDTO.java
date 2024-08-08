@@ -5,7 +5,7 @@ import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.enums.Status;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class TaskDTO implements Serializable {
 
@@ -13,8 +13,10 @@ public class TaskDTO implements Serializable {
 
     private String title;
     private String description;
-    private LocalDate dueDate;
-    private Integer status;
+    private Date createdAt;
+    private Date dueDate;
+    private Status status;
+    private Long userID;
 
     public TaskDTO(){
 
@@ -23,9 +25,26 @@ public class TaskDTO implements Serializable {
     public TaskDTO(Task taskObj){
         this.title = taskObj.getTitle();
         this.description = taskObj.getDescription();
+        this.createdAt = taskObj.getCreatedAt();
         this.dueDate = taskObj.getDueDate();
-        this.status = taskObj.getStatus().getCode();
+        this.status = taskObj.getStatus();
+        this.userID = taskObj.getUser().getId();
+    }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus(){
+        return status;
+    }
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
     public String getTitle() {
@@ -44,19 +63,21 @@ public class TaskDTO implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getDueDate() {
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt){
+        this.createdAt = createdAt;
+    }
+
+
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Status getStatus() {
-        return Status.valueOf(status);
-    }
-
-    public void setStatus(Status status) {
-        this.status = status.getCode();
-    }
 }

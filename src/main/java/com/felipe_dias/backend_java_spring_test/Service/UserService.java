@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserService {
 
     public List<UserDTO> getAllUsers();
-    public void createUser(User user);
+    public User createUser(User user);
     public void updateUser(Long id, UserDTO user);
     public void deleteUser(Long id);
 }
