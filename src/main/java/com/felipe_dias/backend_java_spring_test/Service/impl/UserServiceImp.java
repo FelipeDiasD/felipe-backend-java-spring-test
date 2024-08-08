@@ -39,7 +39,8 @@ public class UserServiceImp implements UserService {
         if(user.getNivel() == null){
             throw new IllegalArgumentException("CAMPO NIVEL OBRIGATORIO");
         }
-        //TODO: LIDAR COM O NIVEL DO USUARIO
+
+
 
 
         return userRepository.save(user);
@@ -48,15 +49,16 @@ public class UserServiceImp implements UserService {
     @Override
     public void updateUser(Long id, UserDTO user) {
 
-        User foundUser = userRepository.findById(id).get();
-
         if(!userRepository.existsById(id)){
             throw new ResourceNotFoundException(id);
         }
 
+        User foundUser = userRepository.findById(id).get();
+
         if(user.getUsername() != null || !user.getUsername().isEmpty()){
             foundUser.setUsername(user.getUsername());
         }
+        //Not possible to change level
 
         userRepository.save(foundUser);
 

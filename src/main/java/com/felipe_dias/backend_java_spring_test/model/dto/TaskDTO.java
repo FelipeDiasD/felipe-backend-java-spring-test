@@ -1,7 +1,6 @@
 package com.felipe_dias.backend_java_spring_test.model.dto;
 
 import com.felipe_dias.backend_java_spring_test.model.Task;
-import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.enums.Status;
 
 import java.io.Serializable;

@@ -1,13 +1,13 @@
 package com.felipe_dias.backend_java_spring_test.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import com.felipe_dias.backend_java_spring_test.model.enums.Status;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -35,6 +35,8 @@ public class Task implements Serializable {
     private Status status;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     public Task(){
