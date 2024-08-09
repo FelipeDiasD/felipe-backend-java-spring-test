@@ -40,7 +40,6 @@ public class SecurityConfig {
         // Force the usage of the application context where the component is defined
         securityExpressionHandler.setApplicationContext(applicationContext);
 
-        // be sure to change "@webSecurity" if you use another name for the @Component above
         var authorizationManager = new WebExpressionAuthorizationManager(
                 "@idChecker.check(authentication,#userId)");
         authorizationManager.setExpressionHandler(securityExpressionHandler);
