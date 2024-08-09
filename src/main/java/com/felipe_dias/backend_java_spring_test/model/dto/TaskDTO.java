@@ -1,5 +1,6 @@
 package com.felipe_dias.backend_java_spring_test.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.felipe_dias.backend_java_spring_test.model.Task;
 import com.felipe_dias.backend_java_spring_test.model.enums.Status;
 
@@ -15,6 +16,7 @@ public class TaskDTO implements Serializable {
     private Date createdAt;
     private Date dueDate;
     private Status status;
+    @JsonIgnore
     private Long userID;
 
     public TaskDTO(){

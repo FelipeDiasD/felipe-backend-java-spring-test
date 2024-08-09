@@ -2,8 +2,8 @@ package com.felipe_dias.backend_java_spring_test.model.enums;
 
 public enum Nivel {
 
-    USER("User"),
-    ADMIN("Admin");
+    USER("user"),
+    ADMIN("admin");
 
     private String label;
 

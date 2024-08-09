@@ -26,10 +26,10 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
-    @PostMapping
-    public ResponseEntity createTask(@RequestBody TaskDTO taskObj){
+    @PostMapping("/{userId}")
+    public ResponseEntity createTask(@RequestBody TaskDTO taskObj, @PathVariable Long userId){
 
-        Task taskToCreate = taskService.fromDto(taskObj);
+        Task taskToCreate = taskService.fromDto(taskObj, userId);
         taskToCreate = taskService.createTask(taskToCreate);
 
         URI uri = ServletUriComponentsBuilder

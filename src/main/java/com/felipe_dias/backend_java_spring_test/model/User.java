@@ -1,5 +1,6 @@
 package com.felipe_dias.backend_java_spring_test.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.felipe_dias.backend_java_spring_test.model.enums.Nivel;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -94,10 +95,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.nivel.equals(Nivel.ADMIN.getLabel())){
-            return List.of(new SimpleGrantedAuthority("ADMIN"));
+        if(this.getNivel() == Nivel.ADMIN){
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
-        return List.of(new SimpleGrantedAuthority("USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

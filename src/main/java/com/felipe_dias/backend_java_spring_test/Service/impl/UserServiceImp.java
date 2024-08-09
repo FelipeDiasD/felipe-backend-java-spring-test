@@ -2,7 +2,6 @@ package com.felipe_dias.backend_java_spring_test.Service.impl;
 
 import com.felipe_dias.backend_java_spring_test.Controller.Exceptions.ResourceNotFoundException;
 import com.felipe_dias.backend_java_spring_test.Service.UserService;
-import com.felipe_dias.backend_java_spring_test.model.Task;
 import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.dto.UserDTO;
 import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
@@ -32,7 +31,7 @@ public class UserServiceImp implements UserService {
     @Override
     public User createUser(User user) {
 
-        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+        if(userRepository.findByUsername(user.getUsername()) != null){
             throw new IllegalArgumentException("USERNAME ALREADY IN USE");
         }
 
@@ -90,7 +89,7 @@ public class UserServiceImp implements UserService {
 
     public User fromDTO(UserDTO userObj){
 
-        String password = new BCryptPasswordEncoder().encode(userObj.getPassword());
+        String password = (userObj.getPassword());
 
         User userToCreate = new User(userObj.getUsername(), userObj.getNivel(), password);
 

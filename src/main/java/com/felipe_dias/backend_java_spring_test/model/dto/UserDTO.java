@@ -1,5 +1,7 @@
 package com.felipe_dias.backend_java_spring_test.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.enums.Nivel;
 

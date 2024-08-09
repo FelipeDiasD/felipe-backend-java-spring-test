@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.Instant;
 
 @RestControllerAdvice
@@ -35,6 +37,21 @@ public class GlobalExceptionHandler {
                     request.getServletPath());
 
             return ResponseEntity.status(status).body(standardError);
+        }
+
+        @ExceptionHandler(RuntimeException.class)
+        public ResponseEntity<StandardError> globalExceptions(RuntimeException e, HttpServletRequest request){
+            String error = e.getMessage();
+            HttpStatus status = HttpStatus.BAD_REQUEST;
+            e.printStackTrace();
+
+            StandardError standardError = new StandardError(Instant.now(),
+                    status.value(),
+                    error, error,
+                    request.getServletPath());
+
+            return ResponseEntity.status(status).body(standardError);
+
         }
     }
 
