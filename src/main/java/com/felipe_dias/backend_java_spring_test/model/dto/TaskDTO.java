@@ -17,7 +17,6 @@ public class TaskDTO implements Serializable {
     private Date createdAt;
     private Date dueDate;
     private Status status;
-
     private User user;
 
     public TaskDTO(){
@@ -45,7 +44,7 @@ public class TaskDTO implements Serializable {
         return user;
     }
 
-    public void setUserID(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -68,11 +67,6 @@ public class TaskDTO implements Serializable {
     public Date getCreatedAt() {
         return createdAt;
     }
-
-    public void setCreatedAt(Date createdAt){
-        this.createdAt = createdAt;
-    }
-
 
     public Date getDueDate() {
         return dueDate;

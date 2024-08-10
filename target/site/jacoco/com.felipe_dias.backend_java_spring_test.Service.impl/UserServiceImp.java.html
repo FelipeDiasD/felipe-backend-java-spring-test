@@ -52,30 +52,30 @@ import java.util.stream.Collectors;
     }
 
     @Override
-    public void updateUser(Long id, UserDTO user) {
+    public User updateUser(Long id, UserDTO user){
 
-<span class="nc bnc" id="L57" title="All 2 branches missed.">        if(!userRepository.existsById(id)){</span>
-<span class="nc" id="L58">            throw new ResourceNotFoundException(id);</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if(!userRepository.existsById(id)){</span>
+<span class="fc" id="L58">            throw new ResourceNotFoundException(id);</span>
         }
 
-<span class="nc" id="L61">        User foundUser = userRepository.findById(id).get();</span>
+<span class="fc" id="L61">        User foundUser = userRepository.findById(id).get();</span>
 
-<span class="nc bnc" id="L63" title="All 4 branches missed.">        if(user.getUsername() != null || !user.getUsername().isEmpty()){</span>
-<span class="nc" id="L64">            foundUser.setUsername(user.getUsername());</span>
+<span class="pc bpc" id="L63" title="3 of 4 branches missed.">        if(user.getUsername() != null || !user.getUsername().isEmpty()){</span>
+<span class="fc" id="L64">            foundUser.setUsername(user.getUsername());</span>
         }
 
-<span class="nc bnc" id="L67" title="All 4 branches missed.">        if(user.getPassword() != null || !user.getPassword().isEmpty()){</span>
+<span class="pc bpc" id="L67" title="3 of 4 branches missed.">        if(user.getPassword() != null || !user.getPassword().isEmpty()){</span>
 
-<span class="nc" id="L69">            String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());</span>
-<span class="nc" id="L70">            foundUser.setPassword(encodedPassword);</span>
+<span class="fc" id="L69">            String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());</span>
+<span class="fc" id="L70">            foundUser.setPassword(encodedPassword);</span>
         }
 
         //ROLES CANNOT BE CHANGED ONCE CREATED
 
 
-<span class="nc" id="L76">        userRepository.save(foundUser);</span>
+<span class="fc" id="L76">        return userRepository.save(foundUser);</span>
 
-<span class="nc" id="L78">    }</span>
+    }
 
     @Override
     public void deleteUser(Long id) {

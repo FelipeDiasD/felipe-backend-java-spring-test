@@ -6,7 +6,8 @@ Java RESTful API criada para o bootcamp Santander 2024 - Backend com Java
 
 - [Visão geral](#visão-geral)
 - [A applicação](#a-aplicação)
-    - [Endpoints](#endpoints)
+    - [Setup](#setup)
+    - [Endpoints](#endpoints) 
 - [Meu desenvolvimento](#meu-desenvolvimento)
     - [Ferramentas utilizadas](#built-with)
     - [Recursos úteis](#recursos-úteis)
@@ -22,8 +23,58 @@ registrar tarefas.
 
 Esta aplicação Java RESTful API foi criada como resposta
 ao teste proposto pela empresa SELAZ para a vaga de Desenvolvedor Backend
+### Setup
+
+Verifique se você tem instalado em sua máquina:
+
+- Java versão 17 ou superior
+- Apache Maven
+
+Passos para executar a aplicação:
+
+1. Clone este repositório em sua máquina
+````
+git clone https://github.com/FelipeDiasD/felipe-backend-java-spring-test.git
+````
+2. Na pasta raiz do projeto, abra um terminal de sua preferência e
+execute o comando para fazer a build do projeto
+````
+mvn clean install -DskipTests
+````
+Caso opte por já executar os testes da aplicação 
+
+````
+mvn clean install
+````
+3. Com isso, para executar a aplicação, excecute o comando
+
+````
+mvn spring-boot:run
+````
+A aplicação deve ser executada e disponível localmente em:
+
+- URL raiz: http://localhost:8080/
+
+O swagger da aplicação fica disponível logo após sua execução em:
+
+- http://localhost:8080/swagger-ui/index.html
+
+Recomendo utilizar uma ferramenta de API client, como o Postman, 
+para ter mais flexibilidade e também para testar a autenticação
+via Bearer Token
+
+Também é disponibilizado um banco de dados em memória para testes:
+
+- http://localhost:8080/h2-console
 
 ### Endpoints
+
+Como indicado por esta sessão deste readme, para acessar alguns
+endpoints é necessário estar autenticado ou ter um nível maior
+de autoridade. Neste momento ainda estou trabalhando na autorização
+em certos endpoints, mas a aplicação deve resgistrar e autenticar
+usuários corretamente, gerando para os mesmos um token de acesso com duração
+de 2 horas.
 
 Registrar seu usuário
 - URL: /register
@@ -64,7 +115,7 @@ Retornar todos os usuários
 - Response: CODE 200
 - Auth Type: Bearer Token
 - Autorizada apenas para usuários ADMIN
-- 
+- Response Body:
 ````
 [
     {
@@ -80,8 +131,29 @@ Retornar todos os usuários
 ]
 ````
 
-## Meu desenvolvimento
+Criar um usuário
+- URL: /users
+- Method: POST
+- Response: CODE 201 (No response body)
+- Auth Type: Bearer Token
+- Autorizada apenas para usuários ADMIN
 
+````
+    {
+        "username": "paulo",
+        "nivel": "ADMIN",
+        "password": "12345"
+    }
+````
+
+## Meu desenvolvimento
+  
+  Desenvolvi a aplicação separada em 4 camadas principais
+
+- Model
+- Service
+- Controller
+- 
 ### Desenvolvido com
 
 - Java 17
@@ -91,13 +163,14 @@ Retornar todos os usuários
 - Springdoc openAPI (Swagger)
 - JUnit
 - Mockito
+- Jacoco
 
 
 ### Recursos úteis
 
 - [Documentação do springboot](https://docs.spring.io/spring-boot/documentation.html)
-- [Documentação do OpenAPI](https://springdoc.org/)
-- [Documentação do Railway](https://docs.railway.app/)
+- [Documentação do SpringDoc OpenAPI](https://springdoc.org/)
+
 
 ## Autor
 

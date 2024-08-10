@@ -50,13 +50,13 @@ import java.util.List;
     @PutMapping(&quot;/{id}&quot;)
     public ResponseEntity updateUser(@PathVariable Long id, UserDTO userObj){
 <span class="nc" id="L52">        userService.updateUser(id, userObj);</span>
-<span class="nc" id="L53">        return ResponseEntity.ok(&quot;USUARIO ATUALIZADO&quot;);</span>
+<span class="nc" id="L53">        return ResponseEntity.ok(&quot;UPDATED USER&quot;);</span>
     }
 
     @DeleteMapping(&quot;/{id}&quot;)
     public ResponseEntity deleteUser(@PathVariable Long id){
 <span class="nc" id="L58">        userService.deleteUser(id);</span>
-<span class="nc" id="L59">        return ResponseEntity.ok(&quot;USUARIO DELETADO&quot;);</span>
+<span class="nc" id="L59">        return ResponseEntity.ok(&quot;DELETED USER&quot;);</span>
     }
 
 

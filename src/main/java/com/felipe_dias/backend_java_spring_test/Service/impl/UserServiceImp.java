@@ -52,7 +52,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void updateUser(Long id, UserDTO user) {
+    public User updateUser(Long id, UserDTO user){
 
         if(!userRepository.existsById(id)){
             throw new ResourceNotFoundException(id);
@@ -73,7 +73,7 @@ public class UserServiceImp implements UserService {
         //ROLES CANNOT BE CHANGED ONCE CREATED
 
 
-        userRepository.save(foundUser);
+        return userRepository.save(foundUser);
 
     }
 

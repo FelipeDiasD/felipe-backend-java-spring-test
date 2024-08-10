@@ -77,7 +77,7 @@ public class SecurityConfig {
                                 //.requestMatchers(HttpMethod.POST,"/tasks/{userId}").access(webExpressionAuthorizationManager)
                                 //.requestMatchers(HttpMethod.DELETE,"/tasks/{userId}/**").access(webExpressionAuthorizationManager)
                                 //.requestMatchers(HttpMethod.PUT, "/tasks/{userId}/**").access(webExpressionAuthorizationManager)
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
 
 
 

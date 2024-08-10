@@ -21,7 +21,7 @@ public class TaskController {
     @Autowired
     private TaskServiceImp taskService;
 
-    @GetMapping("/{userId}")
+    @GetMapping
     public ResponseEntity<List<TaskDTO>> getAllTasks(){
         List<TaskDTO> tasks = taskService.getAllTasks();
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
@@ -41,25 +41,25 @@ public class TaskController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping("/{userId}/task/{id}")
+    @PutMapping("/task/{id}")
     public ResponseEntity updateTask(@PathVariable Long id, @RequestBody TaskDTO task){
         taskService.updateTask(id, task);
         return ResponseEntity.status(HttpStatus.OK).body("UPDATED TASK");
     }
 
-    @DeleteMapping("/{userId}/task/{id}")
+    @DeleteMapping("/task/{id}")
     public ResponseEntity deleteTaskById(@PathVariable Long id){
         taskService.deleteTask(id);
         return ResponseEntity.status(HttpStatus.OK).body("DELETED TASK");
     }
 
-   @GetMapping("/{userId}/status")
+   @GetMapping("/status")
     public ResponseEntity<List<TaskDTO>> getTaskByStatus(@RequestParam Status status){
         List<TaskDTO> tasks = taskService.getTasksByStatus(status.getCode());
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
-    @GetMapping("/{userId}/sort")
+    @GetMapping("/sort")
     public ResponseEntity<List<TaskDTO>> orderTasks(@RequestParam String sort){
 
         if(sort.equals("dueDate")){

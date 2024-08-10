@@ -50,13 +50,13 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@PathVariable Long id, UserDTO userObj){
         userService.updateUser(id, userObj);
-        return ResponseEntity.ok("USUARIO ATUALIZADO");
+        return ResponseEntity.ok("UPDATED USER");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
-        return ResponseEntity.ok("USUARIO DELETADO");
+        return ResponseEntity.ok("DELETED USER");
     }
 
 
