@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-java-spring-test</a> &gt; <a href="index.source.html" class="el_package">com.felipe_dias.backend_java_spring_test.Controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.felipe_dias.backend_java_spring_test.Controller;
+
+import com.felipe_dias.backend_java_spring_test.Service.impl.TaskServiceImp;
+import com.felipe_dias.backend_java_spring_test.Service.impl.UserServiceImp;
+import com.felipe_dias.backend_java_spring_test.model.Task;
+import com.felipe_dias.backend_java_spring_test.model.User;
+import com.felipe_dias.backend_java_spring_test.model.dto.TaskDTO;
+import com.felipe_dias.backend_java_spring_test.model.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping(value = &quot;/users&quot;)
+<span class="fc" id="L20">public class UserController {</span>
+
+    @Autowired
+    private UserServiceImp userService;
+
+    @Autowired
+    private TaskServiceImp taskService;
+
+
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;UserDTO&gt;&gt; getAllUsers(){
+<span class="nc" id="L32">        return ResponseEntity.ok(userService.getAllUsers());</span>
+    }
+
+
+    @PostMapping
+    public ResponseEntity createUser(@RequestBody UserDTO userObj){
+
+<span class="nc" id="L39">        User userToCreate = userService.fromDTO(userObj);</span>
+
+<span class="nc" id="L41">        userToCreate = userService.createUser(userToCreate);</span>
+
+        URI uri = ServletUriComponentsBuilder
+<span class="nc" id="L44">                .fromCurrentRequest().path(&quot;{id}&quot;)</span>
+<span class="nc" id="L45">                .buildAndExpand(userToCreate.getId()).toUri();</span>
+
+<span class="nc" id="L47">        return ResponseEntity.created(uri).build();</span>
+    }
+
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity updateUser(@PathVariable Long id, UserDTO userObj){
+<span class="nc" id="L52">        userService.updateUser(id, userObj);</span>
+<span class="nc" id="L53">        return ResponseEntity.ok(&quot;USUARIO ATUALIZADO&quot;);</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity deleteUser(@PathVariable Long id){
+<span class="nc" id="L58">        userService.deleteUser(id);</span>
+<span class="nc" id="L59">        return ResponseEntity.ok(&quot;USUARIO DELETADO&quot;);</span>
+    }
+
+
+    @GetMapping(&quot;/{id}/tasks&quot;)
+    public ResponseEntity&lt;List&lt;TaskDTO&gt;&gt; getUserTasks(@PathVariable(&quot;id&quot;) Long userId){
+
+<span class="nc" id="L66">        List&lt;TaskDTO&gt; foundTasks = taskService.getTasksByUser(userId);</span>
+<span class="nc" id="L67">        return ResponseEntity.status(HttpStatus.OK).body(foundTasks);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

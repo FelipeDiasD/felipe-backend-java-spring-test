@@ -33,6 +33,7 @@ public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
 
+
     @Bean
     WebExpressionAuthorizationManager webExpressionAuthorizationManager(ApplicationContext applicationContext) {
         var securityExpressionHandler = new DefaultHttpSecurityExpressionHandler();
@@ -55,21 +56,31 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         //TEST TOOLS
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
+
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
 
                         //REGISTER/LOGIN ENDPOINTS
-                        .requestMatchers("auth/**").permitAll()
+
+                                .requestMatchers("auth/**").permitAll()
 
                         //ENDPOINT USERS
-                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
-                        //.requestMatchers(HttpMethod.PUT, "/users/{id}").access()
-                        .requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
-                        .requestMatchers("/tasks/{userId}").access(webExpressionAuthorizationManager)
 
-                        //
-                        //.anyRequest().access(customAuthManager)
+                                .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/users/{userId}").access(webExpressionAuthorizationManager)
+                                .requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
+
+
+                         //ENDPOINT TASK
+
+                                //.requestMatchers(HttpMethod.POST,"/tasks/{userId}").access(webExpressionAuthorizationManager)
+                                //.requestMatchers(HttpMethod.DELETE,"/tasks/{userId}/**").access(webExpressionAuthorizationManager)
+                                //.requestMatchers(HttpMethod.PUT, "/tasks/{userId}/**").access(webExpressionAuthorizationManager)
+                        .anyRequest().authenticated()
+
+
+
 
 
                 )

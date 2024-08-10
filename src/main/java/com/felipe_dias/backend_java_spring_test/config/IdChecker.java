@@ -1,6 +1,7 @@
 package com.felipe_dias.backend_java_spring_test.config;
 
 import com.felipe_dias.backend_java_spring_test.model.User;
+import com.felipe_dias.backend_java_spring_test.model.enums.Nivel;
 import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,6 @@ public class IdChecker {
         String username = authentication.getName();
         User retrievedUser = userRepository.findByUsername(username);
 
-        return retrievedUser.getId() == id;
+        return (retrievedUser.getId() == id || retrievedUser.getNivel().equals(Nivel.ADMIN));
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdChecker.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-java-spring-test</a> &gt; <a href="index.source.html" class="el_package">com.felipe_dias.backend_java_spring_test.config</a> &gt; <span class="el_source">IdChecker.java</span></div><h1>IdChecker.java</h1><pre class="source lang-java linenums">package com.felipe_dias.backend_java_spring_test.config;
+
+import com.felipe_dias.backend_java_spring_test.model.User;
+import com.felipe_dias.backend_java_spring_test.model.enums.Nivel;
+import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+@Component(&quot;idChecker&quot;)
+<span class="fc" id="L11">public class IdChecker {</span>
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public Boolean check(Authentication authentication, Long id){
+
+<span class="nc" id="L18">        String username = authentication.getName();</span>
+<span class="nc" id="L19">        User retrievedUser = userRepository.findByUsername(username);</span>
+
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        return (retrievedUser.getId() == id || retrievedUser.getNivel().equals(Nivel.ADMIN));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

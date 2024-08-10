@@ -140,8 +140,9 @@ public class TaskServiceImp implements TaskService {
         return dtoSortedByDueDate;
     }
 
-    public Task fromDto(TaskDTO taskObj, Long userId){
+    public Task fromDto(TaskDTO taskObj){
 
+        Long userId = taskObj.getUser().getId();
         if(!userRepository.existsById(userId)){
 
             throw new ResourceNotFoundException(userId);

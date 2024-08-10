@@ -7,6 +7,7 @@ import com.felipe_dias.backend_java_spring_test.model.enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,16 +21,17 @@ public class TaskController {
     @Autowired
     private TaskServiceImp taskService;
 
-    @GetMapping
+    @GetMapping("/{userId}")
     public ResponseEntity<List<TaskDTO>> getAllTasks(){
         List<TaskDTO> tasks = taskService.getAllTasks();
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
-    @PostMapping("/{userId}")
-    public ResponseEntity createTask(@RequestBody TaskDTO taskObj, @PathVariable Long userId){
+    @PreAuthorize("#taskObj.user.username == principal.username")
+    @PostMapping
+    public ResponseEntity createTask(@RequestBody TaskDTO taskObj){
 
-        Task taskToCreate = taskService.fromDto(taskObj, userId);
+        Task taskToCreate = taskService.fromDto(taskObj);
         taskToCreate = taskService.createTask(taskToCreate);
 
         URI uri = ServletUriComponentsBuilder
@@ -39,25 +41,25 @@ public class TaskController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{userId}/task/{id}")
     public ResponseEntity updateTask(@PathVariable Long id, @RequestBody TaskDTO task){
         taskService.updateTask(id, task);
         return ResponseEntity.status(HttpStatus.OK).body("UPDATED TASK");
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{userId}/task/{id}")
     public ResponseEntity deleteTaskById(@PathVariable Long id){
         taskService.deleteTask(id);
         return ResponseEntity.status(HttpStatus.OK).body("DELETED TASK");
     }
 
-   @GetMapping("status")
+   @GetMapping("/{userId}/status")
     public ResponseEntity<List<TaskDTO>> getTaskByStatus(@RequestParam Status status){
         List<TaskDTO> tasks = taskService.getTasksByStatus(status.getCode());
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
-    @GetMapping("sort")
+    @GetMapping("/{userId}/sort")
     public ResponseEntity<List<TaskDTO>> orderTasks(@RequestParam String sort){
 
         if(sort.equals("dueDate")){

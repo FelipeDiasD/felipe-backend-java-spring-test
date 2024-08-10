@@ -2,6 +2,7 @@ package com.felipe_dias.backend_java_spring_test.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.felipe_dias.backend_java_spring_test.model.Task;
+import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.enums.Status;
 
 import java.io.Serializable;
@@ -16,8 +17,8 @@ public class TaskDTO implements Serializable {
     private Date createdAt;
     private Date dueDate;
     private Status status;
-    @JsonIgnore
-    private Long userID;
+
+    private User user;
 
     public TaskDTO(){
 
@@ -29,7 +30,7 @@ public class TaskDTO implements Serializable {
         this.createdAt = taskObj.getCreatedAt();
         this.dueDate = taskObj.getDueDate();
         this.status = taskObj.getStatus();
-        this.userID = taskObj.getUser().getId();
+        this.user = taskObj.getUser();
     }
 
     public void setStatus(Status status) {
@@ -40,12 +41,12 @@ public class TaskDTO implements Serializable {
         return status;
     }
 
-    public Long getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
+    public void setUserID(User user) {
+        this.user = user;
     }
 
     public String getTitle() {

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-java-spring-test</a> &gt; <a href="index.source.html" class="el_package">com.felipe_dias.backend_java_spring_test.config</a> &gt; <span class="el_source">SecurityConfig.java</span></div><h1>SecurityConfig.java</h1><pre class="source lang-java linenums">package com.felipe_dias.backend_java_spring_test.config;
+
+import com.felipe_dias.backend_java_spring_test.config.filter.SecurityFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.DefaultHttpSecurityExpressionHandler;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+
+
+@Configuration
+@EnableWebSecurity
+<span class="fc" id="L31">public class SecurityConfig {</span>
+
+    @Autowired
+    SecurityFilter securityFilter;
+
+
+    @Bean
+    WebExpressionAuthorizationManager webExpressionAuthorizationManager(ApplicationContext applicationContext) {
+<span class="fc" id="L39">        var securityExpressionHandler = new DefaultHttpSecurityExpressionHandler();</span>
+
+        // Force the usage of the application context where the component is defined
+<span class="fc" id="L42">        securityExpressionHandler.setApplicationContext(applicationContext);</span>
+
+<span class="fc" id="L44">        var authorizationManager = new WebExpressionAuthorizationManager(</span>
+                &quot;@idChecker.check(authentication,#userId)&quot;);
+<span class="fc" id="L46">        authorizationManager.setExpressionHandler(securityExpressionHandler);</span>
+<span class="fc" id="L47">        return authorizationManager;</span>
+    }
+
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, WebExpressionAuthorizationManager webExpressionAuthorizationManager) throws Exception{
+<span class="fc" id="L53">        return httpSecurity</span>
+<span class="fc" id="L54">                .csrf(csrf -&gt; csrf.disable())</span>
+<span class="fc" id="L55">                .headers(AbstractHttpConfigurer::disable) //ENABLE H2 CONSOLE TO LOAD</span>
+<span class="fc" id="L56">                .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))</span>
+<span class="fc" id="L57">                .authorizeHttpRequests(authorize -&gt; authorize</span>
+                        //TEST TOOLS
+
+<span class="fc" id="L60">                                .requestMatchers(&quot;/swagger-ui/**&quot;).permitAll()</span>
+<span class="fc" id="L61">                                .requestMatchers(&quot;/h2-console/**&quot;).permitAll()</span>
+
+                        //REGISTER/LOGIN ENDPOINTS
+
+<span class="fc" id="L65">                                .requestMatchers(&quot;auth/**&quot;).permitAll()</span>
+
+                        //ENDPOINT USERS
+
+<span class="fc" id="L69">                                .requestMatchers(HttpMethod.GET, &quot;/users&quot;).hasRole(&quot;ADMIN&quot;)</span>
+<span class="fc" id="L70">                                .requestMatchers(HttpMethod.POST, &quot;/users&quot;).hasRole(&quot;ADMIN&quot;)</span>
+<span class="fc" id="L71">                                .requestMatchers(HttpMethod.PUT, &quot;/users/{userId}&quot;).access(webExpressionAuthorizationManager)</span>
+<span class="fc" id="L72">                                .requestMatchers(HttpMethod.DELETE, &quot;/users&quot;).hasRole(&quot;ADMIN&quot;)</span>
+
+
+                         //ENDPOINT TASK
+
+                                //.requestMatchers(HttpMethod.POST,&quot;/tasks/{userId}&quot;).access(webExpressionAuthorizationManager)
+                                //.requestMatchers(HttpMethod.DELETE,&quot;/tasks/{userId}/**&quot;).access(webExpressionAuthorizationManager)
+                                //.requestMatchers(HttpMethod.PUT, &quot;/tasks/{userId}/**&quot;).access(webExpressionAuthorizationManager)
+<span class="fc" id="L80">                        .anyRequest().authenticated()</span>
+
+
+
+
+
+                )
+<span class="fc" id="L87">                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)</span>
+<span class="fc" id="L88">                .build();</span>
+
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+<span class="fc" id="L94">        return authenticationConfiguration.getAuthenticationManager();</span>
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
+<span class="fc" id="L99">        return new BCryptPasswordEncoder();</span>
+    }
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaskServiceImp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-java-spring-test</a> &gt; <a href="index.source.html" class="el_package">com.felipe_dias.backend_java_spring_test.Service.impl</a> &gt; <span class="el_source">TaskServiceImp.java</span></div><h1>TaskServiceImp.java</h1><pre class="source lang-java linenums">package com.felipe_dias.backend_java_spring_test.Service.impl;
+
+import com.felipe_dias.backend_java_spring_test.Controller.Exceptions.ResourceNotFoundException;
+import com.felipe_dias.backend_java_spring_test.Service.TaskService;
+import com.felipe_dias.backend_java_spring_test.model.Task;
+import com.felipe_dias.backend_java_spring_test.model.User;
+import com.felipe_dias.backend_java_spring_test.model.enums.Status;
+import com.felipe_dias.backend_java_spring_test.model.dto.TaskDTO;
+import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.felipe_dias.backend_java_spring_test.repository.TaskRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+<span class="fc" id="L18">public class TaskServiceImp implements TaskService {</span>
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public List&lt;TaskDTO&gt; getAllTasks() {
+<span class="nc" id="L28">        List&lt;Task&gt; taskList = taskRepository.findAll();</span>
+
+<span class="nc" id="L30">        List&lt;TaskDTO&gt; dtoList = taskList.stream()</span>
+<span class="nc" id="L31">                                        .map(task -&gt; new TaskDTO(task))</span>
+<span class="nc" id="L32">                                        .collect(Collectors.toList());</span>
+<span class="nc" id="L33">        return dtoList;</span>
+    }
+
+    @Override
+    public Task createTask(Task task) {
+
+<span class="nc bnc" id="L39" title="All 4 branches missed.">        if(task.getTitle().isEmpty() || task.getTitle() == null){</span>
+<span class="nc" id="L40">            throw new IllegalArgumentException(&quot;TITLE CANNOT BE EMPTY/NULL&quot;);</span>
+        }
+
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        if(task.getDescription().isEmpty() || task.getDescription() == null){</span>
+<span class="nc" id="L44">            throw new IllegalArgumentException(&quot;DESCRIPTION CANNOT BE EMPTY/NULL&quot;);</span>
+        }
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if(task.getDueDate() == null){</span>
+<span class="nc" id="L48">            throw new IllegalArgumentException(&quot;DUE DATE IS OBLIGATORY&quot;);</span>
+        }
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if(task.getStatus() == null){</span>
+<span class="nc" id="L52">            task.setStatus(Status.PENDENTE);</span>
+        }
+
+<span class="nc" id="L55">        Long userId = task.getUser().getId();</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if(!userRepository.existsById(userId)){</span>
+<span class="nc" id="L58">            throw new ResourceNotFoundException(userId);</span>
+        }
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if(task.getUser() == null){</span>
+<span class="nc" id="L61">            throw new IllegalArgumentException(&quot;USER IS OBLIGATORY&quot;);</span>
+        }
+
+<span class="nc" id="L64">        return taskRepository.save(task);</span>
+    }
+
+    @Override
+    public void updateTask(Long id, TaskDTO task) {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if(!taskRepository.existsById(id)){</span>
+<span class="nc" id="L70">            throw new ResourceNotFoundException(id);</span>
+        }
+<span class="nc" id="L72">        Task foundTask = taskRepository.findById(id).get();</span>
+
+<span class="nc bnc" id="L74" title="All 4 branches missed.">        if(!task.getTitle().isEmpty() &amp;&amp; task.getTitle() != null){</span>
+<span class="nc" id="L75">            foundTask.setTitle(task.getTitle());</span>
+        }
+
+<span class="nc bnc" id="L78" title="All 4 branches missed.">        if(!task.getDescription().isEmpty() &amp;&amp; task.getDescription() != null){</span>
+<span class="nc" id="L79">            foundTask.setDescription(task.getDescription());</span>
+        }
+
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if(task.getDueDate() != null){</span>
+<span class="nc" id="L83">            foundTask.setDueDate(task.getDueDate());</span>
+        }
+
+<span class="nc bnc" id="L86" title="All 4 branches missed.">        if(task.getStatus().getCode() &gt; 3 || task.getStatus().getCode() &lt; 1){</span>
+<span class="nc" id="L87">            throw  new IllegalArgumentException(&quot;INVALID STATUS&quot;);</span>
+        }
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if(task.getStatus() != null) {</span>
+<span class="nc" id="L91">            foundTask.setStatus(task.getStatus());</span>
+        }
+
+<span class="nc" id="L94">        taskRepository.save(foundTask);</span>
+<span class="nc" id="L95">    }</span>
+
+    @Override
+    public void deleteTask(Long id) {
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if(!taskRepository.existsById(id)){</span>
+<span class="nc" id="L100">            throw new ResourceNotFoundException(id);</span>
+        }
+
+<span class="nc" id="L103">        taskRepository.deleteById(id);</span>
+<span class="nc" id="L104">    }</span>
+
+    @Override
+    public List&lt;TaskDTO&gt; getTasksByStatus(Integer statusCode) {
+<span class="nc" id="L108">        Status status = Status.valueOf(statusCode);</span>
+
+<span class="nc" id="L110">        List&lt;Task&gt; taskListByStatus = taskRepository.findByStatus(status);</span>
+
+<span class="nc" id="L112">        List&lt;TaskDTO&gt; dtoListByStatus = taskListByStatus.stream()</span>
+<span class="nc" id="L113">                .map(task -&gt; new TaskDTO(task))</span>
+<span class="nc" id="L114">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L116">        return dtoListByStatus;</span>
+    }
+
+    @Override
+    public List&lt;TaskDTO&gt; getTasksByUser(Long id) {
+
+<span class="nc" id="L122">        List&lt;Task&gt; taskListByUser = taskRepository.findAllByUserId(id);</span>
+
+<span class="nc" id="L124">        List&lt;TaskDTO&gt; dtoListByUser = taskListByUser.stream()</span>
+<span class="nc" id="L125">                .map(task -&gt; new TaskDTO(task))</span>
+<span class="nc" id="L126">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L128">       return dtoListByUser;</span>
+    }
+
+    @Override
+    public List&lt;TaskDTO&gt; orderTaskByDueDate() {
+
+<span class="nc" id="L134">        List&lt;Task&gt; taskSortedByDueDate = taskRepository.findByOrderByDueDateAsc();</span>
+
+<span class="nc" id="L136">        List&lt;TaskDTO&gt; dtoSortedByDueDate = taskSortedByDueDate.stream()</span>
+<span class="nc" id="L137">                .map(task -&gt; new TaskDTO(task))</span>
+<span class="nc" id="L138">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L140">        return dtoSortedByDueDate;</span>
+    }
+
+    public Task fromDto(TaskDTO taskObj){
+
+<span class="nc" id="L145">        Long userId = taskObj.getUser().getId();</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if(!userRepository.existsById(userId)){</span>
+
+<span class="nc" id="L148">            throw new ResourceNotFoundException(userId);</span>
+        }
+
+<span class="nc" id="L151">        User taskUser = userRepository.findById(userId).get();</span>
+
+<span class="nc" id="L153">        Task taskToCreate =</span>
+<span class="nc" id="L154">                new Task(taskObj.getTitle(),</span>
+<span class="nc" id="L155">                                  taskObj.getDescription(),</span>
+<span class="nc" id="L156">                                  taskObj.getDueDate(),</span>
+<span class="nc" id="L157">                                  taskObj.getStatus(), taskUser);</span>
+
+<span class="nc" id="L159">        return taskToCreate;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

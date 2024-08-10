@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StandardError.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend-java-spring-test</a> &gt; <a href="index.source.html" class="el_package">com.felipe_dias.backend_java_spring_test.Controller.Exceptions</a> &gt; <span class="el_source">StandardError.java</span></div><h1>StandardError.java</h1><pre class="source lang-java linenums">package com.felipe_dias.backend_java_spring_test.Controller.Exceptions;
+
+import java.time.Instant;
+
+public class StandardError {
+
+    private Instant timestamp;
+    private Integer status;
+    private String error;
+    private String message;
+    private String path;
+
+<span class="nc" id="L13">    public StandardError(Instant timestamp, Integer status, String error, String message, String path) {</span>
+<span class="nc" id="L14">        this.timestamp = timestamp;</span>
+<span class="nc" id="L15">        this.status = status;</span>
+<span class="nc" id="L16">        this.error = error;</span>
+<span class="nc" id="L17">        this.message = message;</span>
+<span class="nc" id="L18">        this.path = path;</span>
+<span class="nc" id="L19">    }</span>
+
+    public Instant getTimestamp() {
+<span class="nc" id="L22">        return timestamp;</span>
+    }
+
+    public void setTimestamp(Instant timestamp) {
+<span class="nc" id="L26">        this.timestamp = timestamp;</span>
+<span class="nc" id="L27">    }</span>
+
+    public Integer getStatus() {
+<span class="nc" id="L30">        return status;</span>
+    }
+
+    public void setStatus(Integer status) {
+<span class="nc" id="L34">        this.status = status;</span>
+<span class="nc" id="L35">    }</span>
+
+    public String getMessage() {
+<span class="nc" id="L38">        return message;</span>
+    }
+
+    public void setMessage(String message) {
+<span class="nc" id="L42">        this.message = message;</span>
+<span class="nc" id="L43">    }</span>
+
+    public String getPath() {
+<span class="nc" id="L46">        return path;</span>
+    }
+
+    public void setPath(String path) {
+<span class="nc" id="L50">        this.path = path;</span>
+<span class="nc" id="L51">    }</span>
+
+    public String getError() {
+<span class="nc" id="L54">        return error;</span>
+    }
+
+    public void setError(String error) {
+<span class="nc" id="L58">        this.error = error;</span>
+<span class="nc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
