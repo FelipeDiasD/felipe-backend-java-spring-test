@@ -148,10 +148,11 @@ Criar um usuário
   
   Desenvolvi a aplicação separada em 4 camadas principais
 
-- Model
-- Service
-- Controller
-- 
+- Model: Onde as entidades e seus DTO's são modeladas em POJO
+- Repository: Camada que interage e faz as operações diretmente com o banco de dados 
+- Service: Camada que determina toda a lógica de negócio da aplicação
+- Controller: Camada que expõe a aplicação através dos endpoints
+
 ### Desenvolvido com
 
 - Java 17
