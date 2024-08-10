@@ -1,7 +1,5 @@
 # Teste Backend - Api de tarefas
 
-Java RESTful API criada para o bootcamp Santander 2024 - Backend com Java
-
 ## Table of contents
 
 - [Visão geral](#visão-geral)
