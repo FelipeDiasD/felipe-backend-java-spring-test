@@ -77,7 +77,7 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
                                 //.requestMatchers(HttpMethod.POST,&quot;/tasks/{userId}&quot;).access(webExpressionAuthorizationManager)
                                 //.requestMatchers(HttpMethod.DELETE,&quot;/tasks/{userId}/**&quot;).access(webExpressionAuthorizationManager)
                                 //.requestMatchers(HttpMethod.PUT, &quot;/tasks/{userId}/**&quot;).access(webExpressionAuthorizationManager)
-<span class="fc" id="L80">                        .anyRequest().authenticated()</span>
+<span class="fc" id="L80">                        .anyRequest().permitAll()</span>
 
 
 

@@ -31,69 +31,65 @@ import java.util.stream.Collectors;
     @Override
     public User createUser(User user) {
 
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if(userRepository.findByUsername(user.getUsername()) != null){</span>
-<span class="nc" id="L35">            throw new IllegalArgumentException(&quot;USERNAME ALREADY IN USE&quot;);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if(userRepository.findByUsername(user.getUsername()) != null){</span>
+<span class="fc" id="L35">            throw new IllegalArgumentException(&quot;USERNAME ALREADY IN USE&quot;);</span>
         }
 
-<span class="pc bpc" id="L38" title="2 of 4 branches missed.">        if(user.getUsername().isEmpty() || user.getUsername() == null){</span>
-<span class="nc" id="L39">            throw new IllegalArgumentException(&quot;USERNAME CANNOT BE EMPTY/NULL&quot;);</span>
+<span class="pc bpc" id="L38" title="1 of 4 branches missed.">        if(user.getUsername() == null || user.getUsername().isEmpty()){</span>
+<span class="fc" id="L39">            throw new IllegalArgumentException(&quot;USERNAME CANNOT BE EMPTY/NULL&quot;);</span>
         }
 
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if(user.getNivel() == null){</span>
-<span class="nc" id="L43">            throw new IllegalArgumentException(&quot;USERNAME CANNOT BE EMPTY/NULL&quot;);</span>
-        }
-
-<span class="pc bpc" id="L46" title="2 of 4 branches missed.">        if(user.getPassword().isEmpty() || user.getPassword() == null){</span>
-<span class="nc" id="L47">            throw new IllegalArgumentException(&quot;PASSWORD CANNOT BE EMPTY/NULL&quot;);</span>
+<span class="pc bpc" id="L42" title="1 of 4 branches missed.">        if(user.getPassword() == null || user.getPassword().isEmpty()){</span>
+<span class="fc" id="L43">            throw new IllegalArgumentException(&quot;PASSWORD CANNOT BE EMPTY/NULL&quot;);</span>
 
         }
 
-<span class="fc" id="L51">        return userRepository.save(user);</span>
+<span class="fc" id="L47">        return userRepository.save(user);</span>
     }
 
     @Override
     public User updateUser(Long id, UserDTO user){
 
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        if(!userRepository.existsById(id)){</span>
-<span class="fc" id="L58">            throw new ResourceNotFoundException(id);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if(!userRepository.existsById(id)){</span>
+<span class="fc" id="L54">            throw new ResourceNotFoundException(id);</span>
         }
 
-<span class="fc" id="L61">        User foundUser = userRepository.findById(id).get();</span>
+<span class="fc" id="L57">        User foundUser = userRepository.findById(id).get();</span>
 
-<span class="pc bpc" id="L63" title="3 of 4 branches missed.">        if(user.getUsername() != null || !user.getUsername().isEmpty()){</span>
-<span class="fc" id="L64">            foundUser.setUsername(user.getUsername());</span>
+<span class="pc bpc" id="L59" title="3 of 4 branches missed.">        if(user.getUsername() != null || !user.getUsername().isEmpty()){</span>
+<span class="fc" id="L60">            foundUser.setUsername(user.getUsername());</span>
         }
 
-<span class="pc bpc" id="L67" title="3 of 4 branches missed.">        if(user.getPassword() != null || !user.getPassword().isEmpty()){</span>
+<span class="pc bpc" id="L63" title="3 of 4 branches missed.">        if(user.getPassword() != null || !user.getPassword().isEmpty()){</span>
 
-<span class="fc" id="L69">            String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());</span>
-<span class="fc" id="L70">            foundUser.setPassword(encodedPassword);</span>
+<span class="fc" id="L65">            String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());</span>
+<span class="fc" id="L66">            foundUser.setPassword(encodedPassword);</span>
         }
 
         //ROLES CANNOT BE CHANGED ONCE CREATED
 
 
-<span class="fc" id="L76">        return userRepository.save(foundUser);</span>
+<span class="fc" id="L72">        return userRepository.save(foundUser);</span>
 
     }
 
     @Override
     public void deleteUser(Long id) {
 
-<span class="nc bnc" id="L83" title="All 2 branches missed.">        if(!userRepository.existsById(id)){</span>
-<span class="nc" id="L84">            throw new ResourceNotFoundException(id);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if(!userRepository.existsById(id)){</span>
+<span class="fc" id="L80">            throw new ResourceNotFoundException(id);</span>
         }
 
-<span class="nc" id="L87">        userRepository.deleteById(id);</span>
-<span class="nc" id="L88">    }</span>
+<span class="fc" id="L83">        userRepository.deleteById(id);</span>
+<span class="fc" id="L84">    }</span>
 
     public User fromDTO(UserDTO userObj){
 
-<span class="nc" id="L92">        String password = (userObj.getPassword());</span>
+<span class="nc" id="L88">        String password = (userObj.getPassword());</span>
 
-<span class="nc" id="L94">        User userToCreate = new User(userObj.getUsername(), userObj.getNivel(), password);</span>
+<span class="nc" id="L90">        User userToCreate = new User(userObj.getUsername(), userObj.getNivel(), password);</span>
 
-<span class="nc" id="L96">        return userToCreate;</span>
+<span class="nc" id="L92">        return userToCreate;</span>
     }
 
 

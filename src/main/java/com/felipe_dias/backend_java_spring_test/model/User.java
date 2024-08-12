@@ -93,6 +93,7 @@ public class User implements UserDetails {
 
     // ------------Security config---------------
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.getNivel() == Nivel.ADMIN){
@@ -106,21 +107,22 @@ public class User implements UserDetails {
         return password;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

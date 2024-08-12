@@ -65,6 +65,11 @@ Também é disponibilizado um banco de dados em memória para testes:
 
 - http://localhost:8080/h2-console
 
+Adicionalmente é também disponibilizado a ferramenta de cobertura
+de testes Jacoco. Para acessar a ferramenta, vá na pasta raiz do projeto e
+procure pela pasta target. Dentro da pasta busque pela pasta site e dentro
+dela abra o arquivo index.html.
+
 ### Endpoints
 
 Como indicado por esta sessão deste readme, para acessar alguns
@@ -135,7 +140,7 @@ Criar um usuário
 - Response: CODE 201 (No response body)
 - Auth Type: Bearer Token
 - Autorizada apenas para usuários ADMIN
-
+- Request Body:
 ````
     {
         "username": "paulo",
@@ -144,14 +149,303 @@ Criar um usuário
     }
 ````
 
+Atualizar um usuário
+
+- URL: /users/{id}
+- Method: PUT
+- Response: CODE 200
+- Auth Type: Bearer Token
+- Autorizada apenas para usuários ADMIN
+- Request Body:
+````
+    {
+        "username": "pauloNovoUsername",
+        "password": "12345NovaSenha"
+    }
+````
+- Response body:
+````
+   "UPDATED USER!"
+````
+
+Remover um usuário
+
+- URL: /users/{id}
+- Method: DELETE
+- Response: CODE 200
+- Auth Type: Bearer Token
+- Autorizada apenas para usuários ADMIN
+- Nota: Todas as tarefas do usuário também são deletadas
+- Response Body:
+````
+"DELETED USER"
+````
+Retornar todas as tarefas
+
+- URL: /tasks
+- Method: GET
+- Response: CODE 200
+- Response body:
+````
+[
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-09T02:31:17.445Z",
+    "dueDate": "2024-08-12T02:31:17.445Z",
+    "status": "PENDENTE",
+    "user": {
+      "id": 1,
+      "username": "user1",
+      "nivel": "USER",
+      "password": "1234"
+    }
+  },
+  
+    {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-12T02:31:17.445Z",
+    "dueDate": "2024-08-15T02:31:17.445Z",
+    "status": "EM_ANDAMENTO",
+    "user": {
+      "id": 2,
+      "username": "user2",
+      "nivel": "USER",
+      "password": "1234"
+    }
+  }
+]
+````
+Criar uma nova tarefa
+
+- URL: /tasks
+- Method: POST
+- Response: CODE 201 (No response body)
+- Request Body:
+````
+{
+    "title": "string",
+    "description": "string",
+    "dueDate": "2024-08-12T02:31:17.445Z",
+    "user": {
+      "id": 1,
+    }
+  }
+````
+
+Atualizar uma tarefa
+
+- URL: /tasks/task/{id}
+- Method: POST
+- Response: CODE 200 
+- Request Body:
+````
+{
+    "title": "string",
+    "description": "string",
+    "dueDate": "2024-08-12T02:31:17.445Z",
+    "status": "PENDENTE"
+}
+````
+- Response Body
+````
+"UPDATED TASK"
+````
+Remover uma tarefa
+
+- URL: /tasks/task/{id}
+- Method: POST
+- Response: CODE 200
+- Response Body
+````
+"DELETED TASK"
+````
+Retorna as tarefas por status
+
+- URL: /tasks?statusCode={statusCode}
+- Method: GET
+- Response: CODE 200
+- Nota: Pendente(1) - Em andamento(2) - Concluída(3)
+- Response Body
+
+````
+[
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-10T03:17:31.649Z",
+    "dueDate": "2024-08-20T03:17:31.649Z",
+    "status": "PENDENTE",
+    "user": {
+      "id": 1,
+      "username": "user1",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  },
+  
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-12T03:17:31.649Z",
+    "dueDate": "2024-08-15T03:17:31.649Z",
+    "status": "PENDENTE",
+    "user": {
+      "id": 1,
+      "username": "user1",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  },
+  ]
+````
+Retornar as tarefas de um usuário
+
+- URL: /tasks/{id}/tasks
+- Method: GET
+- Response: CODE 200
+- Response Body
+
+````
+[
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-10T03:17:31.649Z",
+    "dueDate": "2024-08-20T03:17:31.649Z",
+    "status": "PENDENTE",
+    "user": {
+      "id": 1,
+      "username": "user1",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  },
+  
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-12T03:17:31.649Z",
+    "dueDate": "2024-08-17T03:17:31.649Z",
+    "status": "EM_ANDAMENTO",
+    "user": {
+      "id": 1,
+      "username": "user1",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  },
+  ]
+````
+
+Retorna as tarefas por status
+
+- URL: /tasks/status?statusCode={statusCode}
+- Method: GET
+- Response: CODE 200
+- Nota: Pendente(1) - Em andamento(2) - Concluída(3)
+- Response Body
+````
+[
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-10T03:17:31.649Z",
+    "dueDate": "2024-08-20T03:17:31.649Z",
+    "status": "PENDENTE",
+    "user": {
+      "id": 1,
+      "username": "user1",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  },
+  
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-12T03:17:31.649Z",
+    "dueDate": "2024-08-17T03:17:31.649Z",
+    "status": "PENDENTE",
+    "user": {
+      "id": 2,
+      "username": "user2",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  },
+  ]
+````
+Retornar as tarefas ordenadas pela data de término
+- URL: /tasks/sort?sort={sortMethod}
+- Method: GET
+- Response: CODE 200
+- Nota: Só há um método de organização no momento - dueDate
+- Response Body
+````
+[
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-10T03:17:31.649Z",
+    "dueDate": "2024-08-15T03:17:31.649Z",
+    "status": "PENDENTE",
+    "user": {
+      "id": 1,
+      "username": "user1",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  },
+  
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-12T03:17:31.649Z",
+    "dueDate": "2024-08-17T03:17:31.649Z",
+    "status": "PENDENTE",
+    "user": {
+      "id": 2,
+      "username": "user2",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  },
+  
+    
+  {
+    "title": "string",
+    "description": "string",
+    "createdAt": "2024-08-12T03:17:31.649Z",
+    "dueDate": "2024-08-20T03:17:31.649Z",
+    "status": "EM_ANDAMENTO",
+    "user": {
+      "id": 1,
+      "username": "user1",
+      "nivel": "USER",
+      "password": "12345"
+    }
+  }
+  ]
+````
+
 ## Meu desenvolvimento
   
-  Desenvolvi a aplicação separada em 4 camadas principais
+Desenvolvi a aplicação separada em 4 camadas principais
 
 - Model: Onde as entidades e seus DTO's são modeladas em POJO
 - Repository: Camada que interage e faz as operações diretmente com o banco de dados 
 - Service: Camada que determina toda a lógica de negócio da aplicação
 - Controller: Camada que expõe a aplicação através dos endpoints
+
+Apliquei DTO's para as duas entidades que estão sendo utilizadas (User e Task),
+para fazer uma separação melhor do código.
+
+Nas classes de serviço utilizei algumas interfaces para definir os contratos
+que as implementações das regras de negócio das entidades principais.
+
+
 
 ### Desenvolvido com
 

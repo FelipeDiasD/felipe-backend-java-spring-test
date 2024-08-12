@@ -35,15 +35,11 @@ public class UserServiceImp implements UserService {
             throw new IllegalArgumentException("USERNAME ALREADY IN USE");
         }
 
-        if(user.getUsername().isEmpty() || user.getUsername() == null){
+        if(user.getUsername() == null || user.getUsername().isEmpty()){
             throw new IllegalArgumentException("USERNAME CANNOT BE EMPTY/NULL");
         }
 
-        if(user.getNivel() == null){
-            throw new IllegalArgumentException("USERNAME CANNOT BE EMPTY/NULL");
-        }
-
-        if(user.getPassword().isEmpty() || user.getPassword() == null){
+        if(user.getPassword() == null || user.getPassword().isEmpty()){
             throw new IllegalArgumentException("PASSWORD CANNOT BE EMPTY/NULL");
 
         }

@@ -43,15 +43,15 @@ public class Task implements Serializable {
 
 <span class="fc" id="L44">    }</span>
 
-<span class="nc" id="L46">    public Task(Long id, String title, String description, Date createdAt, Date dueDate, Status status, User user) {</span>
-<span class="nc" id="L47">        this.id = id;</span>
-<span class="nc" id="L48">        this.title = title;</span>
-<span class="nc" id="L49">        this.description = description;</span>
-<span class="nc" id="L50">        this.createdAt = createdAt;</span>
-<span class="nc" id="L51">        this.dueDate = dueDate;</span>
-<span class="nc" id="L52">        this.status = status;</span>
-<span class="nc" id="L53">        this.user = user;</span>
-<span class="nc" id="L54">    }</span>
+<span class="fc" id="L46">    public Task(Long id, String title, String description, Date createdAt, Date dueDate, Status status, User user) {</span>
+<span class="fc" id="L47">        this.id = id;</span>
+<span class="fc" id="L48">        this.title = title;</span>
+<span class="fc" id="L49">        this.description = description;</span>
+<span class="fc" id="L50">        this.createdAt = createdAt;</span>
+<span class="fc" id="L51">        this.dueDate = dueDate;</span>
+<span class="fc" id="L52">        this.status = status;</span>
+<span class="fc" id="L53">        this.user = user;</span>
+<span class="fc" id="L54">    }</span>
 
 <span class="nc" id="L56">    public Task(String title, String description, Date dueDate, Status status, User user) {</span>
 
@@ -71,7 +71,7 @@ public class Task implements Serializable {
 <span class="nc" id="L71">    }</span>
 
     public String getTitle() {
-<span class="nc" id="L74">        return title;</span>
+<span class="fc" id="L74">        return title;</span>
     }
 
     public void setTitle(String title) {
@@ -79,7 +79,7 @@ public class Task implements Serializable {
 <span class="nc" id="L79">    }</span>
 
     public String getDescription() {
-<span class="nc" id="L82">        return description;</span>
+<span class="fc" id="L82">        return description;</span>
     }
 
     public void setDescription(String description) {
@@ -87,7 +87,7 @@ public class Task implements Serializable {
 <span class="nc" id="L87">    }</span>
 
     public Date getCreatedAt() {
-<span class="nc" id="L90">        return createdAt;</span>
+<span class="fc" id="L90">        return createdAt;</span>
     }
 
     public void setCreatedAt(Date createdAt) {
@@ -95,7 +95,7 @@ public class Task implements Serializable {
 <span class="nc" id="L95">    }</span>
 
     public Date getDueDate() {
-<span class="nc" id="L98">        return dueDate;</span>
+<span class="fc" id="L98">        return dueDate;</span>
     }
 
     public void setDueDate(Date dueDate) {
@@ -103,7 +103,7 @@ public class Task implements Serializable {
 <span class="nc" id="L103">    }</span>
 
     public Status getStatus() {
-<span class="nc" id="L106">        return status;</span>
+<span class="fc" id="L106">        return status;</span>
     }
 
     public void setStatus(Status status) {
@@ -111,7 +111,7 @@ public class Task implements Serializable {
 <span class="nc" id="L111">    }</span>
 
     public User getUser() {
-<span class="nc" id="L114">        return user;</span>
+<span class="fc" id="L114">        return user;</span>
     }
 
     public void setUser(User user) {
@@ -120,7 +120,7 @@ public class Task implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if (this == o) return true;</span>
 <span class="nc bnc" id="L124" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
 <span class="nc" id="L125">        Task task = (Task) o;</span>
 <span class="nc" id="L126">        return Objects.equals(id, task.id);</span>

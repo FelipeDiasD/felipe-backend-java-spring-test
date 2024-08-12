@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +21,11 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class UserServiceTests {
 
 
@@ -63,8 +68,8 @@ public class UserServiceTests {
     @Test
     void testUpdatingUserUsername(){
 
-        User updatedUser = new User(1L, "nomeNovo", Nivel.USER, "1234");
         User oldUser = new User(1L, "nomeAntigo", Nivel.USER, "1234");
+        User updatedUser = new User(1L, "nomeNovo", Nivel.USER, "1234");
 
         UserDTO dataToUpdate = new UserDTO(updatedUser);
 
@@ -80,8 +85,30 @@ public class UserServiceTests {
         assertThat(resultedUser).isEqualTo(updatedUser);
 
     }
+
     @Test
-    void testUpdatingInexistentUser(){
+    void testUpdatingUserPassword() {
+
+        User oldUser = new User(1L, "nome", Nivel.USER, "senhaVelha");
+        User updatedUser = new User(1L, "nome", Nivel.USER, "senhaNova");
+
+        UserDTO dataToUpdate = new UserDTO(updatedUser);
+
+        Long userId = oldUser.getId();
+
+        given(userRepository.save(oldUser)).willReturn(oldUser);
+        given(userRepository.findById(userId)).willReturn(Optional.of(oldUser));
+        given(userRepository.existsById(userId)).willReturn(true);
+        given(userRepository.save(updatedUser)).willReturn(updatedUser);
+
+        var resultedUser = userService.updateUser(oldUser.getId(), dataToUpdate);
+
+        assertThat(resultedUser).isEqualTo(updatedUser);
+    }
+
+
+        @Test
+        void testUpdatingInexistentUser(){
 
         User updatedUser = new User(1L, "nomeNovo", Nivel.USER, "1234");
         User oldUser = new User(1L, "nomeAntigo", Nivel.USER, "1234");
@@ -100,27 +127,72 @@ public class UserServiceTests {
             userService.updateUser(oldUser.getId(), dataToUpdate);
         });
 
-
-
-
-
     }
 
+    @Test
     void testDeletingUser(){
 
-    }
+        User userToDelete = new User(1L, "user1", Nivel.USER, "1234");
 
+        Long userId = userToDelete.getId();
+
+        given(userRepository.existsById(userId)).willReturn(true);
+        willDoNothing().given(userRepository).deleteById(userId);
+
+        Assertions.assertDoesNotThrow(() -> {
+
+            userService.createUser(userToDelete);
+            userService.deleteUser(userId); } );
+
+        Assertions.assertTrue(userService.getAllUsers().isEmpty());
+
+
+    }
+    @Test
     void testCreateUserWithNoName(){
+        User userWithNoName = new User(1l, "", Nivel.USER, "1234");
 
+
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(userWithNoName);
+        });
     }
 
-    void testCreateUserWithNoNivel(){
-
-    }
-
+    @Test
     void testCreateUserWithNoPassword(){
+        User userWithNoPassword = new User(1l, "User", Nivel.USER, null);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(userWithNoPassword);
+        });
+    }
+
+    @Test
+    void testCreatingUserWithSameUsername(){
+
+        User originalUser = new User(1l, "username", Nivel.USER, "1234");
+        User userWithSameName = new User(2l, "username", Nivel.USER, "1234");
+
+        given(userRepository.findByUsername(originalUser.getUsername())).willReturn(originalUser);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(originalUser);
+            userService.createUser(userWithSameName);
+        });
+    }
+
+    @Test
+    void testDeleteUserThatDoesntExist(){
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            userService.deleteUser(1l);
+        });
+
 
     }
+
+
 
 
 
