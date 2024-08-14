@@ -58,7 +58,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
                         //ENDPOINT USERS
-                                
+
                                 .anyRequest().permitAll()
 
 

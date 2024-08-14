@@ -59,7 +59,7 @@ public class TaskServiceTests {
     }
 
     @Test
-    void testCreatingATest(){
+    void testCreatingATask(){
         Date today = new Date();
 
         User u1 = new User(1L, "user1", Nivel.USER, "1234");
@@ -69,6 +69,14 @@ public class TaskServiceTests {
         given(userRepository.existsById(u1.getId())).willReturn(true);
 
         assertThat(taskService.createTask(t1)).isEqualTo(t1);
+
+    }
+
+    void testUpdatingTask(){
+
+    }
+
+    void testDeletingTask(){
 
     }
 
