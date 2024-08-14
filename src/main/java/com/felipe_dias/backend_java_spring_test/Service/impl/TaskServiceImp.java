@@ -35,7 +35,6 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    @PreAuthorize("#task.user.username == authentication.name")
     public Task createTask(Task task) {
 
 

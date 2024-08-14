@@ -35,20 +35,6 @@ public class SecurityConfig {
 
 
     @Bean
-    WebExpressionAuthorizationManager webExpressionAuthorizationManager(ApplicationContext applicationContext) {
-        var securityExpressionHandler = new DefaultHttpSecurityExpressionHandler();
-
-        // Force the usage of the application context where the component is defined
-        securityExpressionHandler.setApplicationContext(applicationContext);
-
-        var authorizationManager = new WebExpressionAuthorizationManager(
-                "@idChecker.check(authentication,#userId)");
-        authorizationManager.setExpressionHandler(securityExpressionHandler);
-        return authorizationManager;
-    }
-
-
-    @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
@@ -72,7 +58,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
                         //ENDPOINT USERS
-                              
+                                
                                 .anyRequest().permitAll()
 
 
@@ -93,12 +79,6 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-    IdChecker idChecker(){
-        return new IdChecker();
-    }
-
 
 
 }

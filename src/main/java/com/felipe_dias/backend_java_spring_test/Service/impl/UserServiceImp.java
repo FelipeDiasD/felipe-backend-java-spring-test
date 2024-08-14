@@ -49,7 +49,6 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    @PreAuthorize("#foundUser.username == authentication.name")
     public User updateUser(Long id, UserDTO user){
 
         if(!userRepository.existsById(id)){

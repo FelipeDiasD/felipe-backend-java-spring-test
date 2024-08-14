@@ -29,6 +29,7 @@ public class TaskController {
 
 
     @PostMapping
+    @PreAuthorize("@authorizationService.isTaskOwner(authentication,#taskObj)")
     public ResponseEntity createTask(@RequestBody TaskDTO taskObj){
 
 
@@ -43,12 +44,14 @@ public class TaskController {
     }
 
     @PutMapping("/task/{id}")
+    @PreAuthorize("@authorizationService.isTaskOwnerById(authentication,#id)")
     public ResponseEntity updateTask(@PathVariable Long id, @RequestBody TaskDTO task){
         taskService.updateTask(id, task);
         return ResponseEntity.status(HttpStatus.OK).body("UPDATED TASK");
     }
 
     @DeleteMapping("/task/{id}")
+    @PreAuthorize("@authorizationService.isTaskOwnerById(authentication,#id)")
     public ResponseEntity deleteTaskById(@PathVariable Long id){
         taskService.deleteTask(id);
         return ResponseEntity.status(HttpStatus.OK).body("DELETED TASK");
@@ -60,11 +63,6 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
-    @GetMapping("/userId")
-    public ResponseEntity<List<TaskDTO>> getTaskByUserId(@RequestParam Long userId){
-        List<TaskDTO> tasks = taskService.getTasksByUser(userId);
-        return ResponseEntity.status(HttpStatus.OK).body(tasks);
-    }
 
     @GetMapping("/sort")
     public ResponseEntity<List<TaskDTO>> orderTasks(@RequestParam String sort){
