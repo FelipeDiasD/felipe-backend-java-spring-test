@@ -27,9 +27,10 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
-    @PreAuthorize("#taskObj.user.username == principal.username")
+
     @PostMapping
     public ResponseEntity createTask(@RequestBody TaskDTO taskObj){
+
 
         Task taskToCreate = taskService.fromDto(taskObj);
         taskToCreate = taskService.createTask(taskToCreate);
@@ -56,6 +57,12 @@ public class TaskController {
    @GetMapping("/status")
     public ResponseEntity<List<TaskDTO>> getTaskByStatus(@RequestParam Status status){
         List<TaskDTO> tasks = taskService.getTasksByStatus(status.getCode());
+        return ResponseEntity.status(HttpStatus.OK).body(tasks);
+    }
+
+    @GetMapping("/userId")
+    public ResponseEntity<List<TaskDTO>> getTaskByUserId(@RequestParam Long userId){
+        List<TaskDTO> tasks = taskService.getTasksByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 

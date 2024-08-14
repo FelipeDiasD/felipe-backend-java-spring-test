@@ -8,6 +8,7 @@ import com.felipe_dias.backend_java_spring_test.model.enums.Status;
 import com.felipe_dias.backend_java_spring_test.model.dto.TaskDTO;
 import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import com.felipe_dias.backend_java_spring_test.repository.TaskRepository;
 
@@ -34,7 +35,9 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
+    @PreAuthorize("#task.user.username == authentication.name")
     public Task createTask(Task task) {
+
 
         if(task.getTitle().isEmpty() || task.getTitle() == null){
             throw new IllegalArgumentException("TITLE CANNOT BE EMPTY/NULL");

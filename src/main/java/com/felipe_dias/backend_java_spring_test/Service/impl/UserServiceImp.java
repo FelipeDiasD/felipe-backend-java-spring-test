@@ -6,6 +6,7 @@ import com.felipe_dias.backend_java_spring_test.model.User;
 import com.felipe_dias.backend_java_spring_test.model.dto.UserDTO;
 import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @PreAuthorize("#foundUser.username == authentication.name")
     public User updateUser(Long id, UserDTO user){
 
         if(!userRepository.existsById(id)){
@@ -56,11 +58,11 @@ public class UserServiceImp implements UserService {
 
         User foundUser = userRepository.findById(id).get();
 
-        if(user.getUsername() != null || !user.getUsername().isEmpty()){
+        if(user.getUsername() != null && !user.getUsername().isEmpty()){
             foundUser.setUsername(user.getUsername());
         }
 
-        if(user.getPassword() != null || !user.getPassword().isEmpty()){
+        if(user.getPassword() != null && !user.getPassword().isEmpty()){
 
             String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
             foundUser.setPassword(encodedPassword);

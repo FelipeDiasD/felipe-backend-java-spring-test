@@ -49,7 +49,7 @@ public class SecurityConfig {
 
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, WebExpressionAuthorizationManager webExpressionAuthorizationManager) throws Exception{
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .headers(AbstractHttpConfigurer::disable) //ENABLE H2 CONSOLE TO LOAD
@@ -68,22 +68,17 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/users/{userId}").access(webExpressionAuthorizationManager)
-                                .requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/users/{userId}").authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
-
-                         //ENDPOINT TASK
-
-                                //.requestMatchers(HttpMethod.POST,"/tasks/{userId}").access(webExpressionAuthorizationManager)
-                                //.requestMatchers(HttpMethod.DELETE,"/tasks/{userId}/**").access(webExpressionAuthorizationManager)
-                                //.requestMatchers(HttpMethod.PUT, "/tasks/{userId}/**").access(webExpressionAuthorizationManager)
-                        .anyRequest().permitAll()
+                        //ENDPOINT USERS
+                              
+                                .anyRequest().permitAll()
 
 
 
 
-
-                )
+                        )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 
@@ -97,6 +92,11 @@ public class SecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    IdChecker idChecker(){
+        return new IdChecker();
     }
 
 
