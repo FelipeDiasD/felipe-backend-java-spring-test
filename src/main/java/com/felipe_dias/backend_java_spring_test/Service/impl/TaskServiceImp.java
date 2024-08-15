@@ -54,6 +54,10 @@ public class TaskServiceImp implements TaskService {
             task.setStatus(Status.PENDENTE);
         }
 
+        if(task.getCreatedAt().after(task.getDueDate())){
+            throw new IllegalArgumentException("DUE DATE CANNOT BE BEFORE TODAY'S DATE");
+        }
+
         Long userId = task.getUser().getId();
 
         if(!userRepository.existsById(userId)){

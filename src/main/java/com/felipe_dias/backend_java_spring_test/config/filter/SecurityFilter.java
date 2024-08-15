@@ -11,10 +11,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-
+/**
+ * Esse {@link Component} é um filtro invocado antes de cada requisição
+ * afim de verificar o token da requisição
+ * @author felipedias
+ */
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 

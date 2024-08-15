@@ -59,7 +59,7 @@ public class SecurityConfig {
 
                         //ENDPOINT USERS
 
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
 
 
 

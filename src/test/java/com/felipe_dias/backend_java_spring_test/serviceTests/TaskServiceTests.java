@@ -4,10 +4,12 @@ import com.felipe_dias.backend_java_spring_test.Service.TaskService;
 import com.felipe_dias.backend_java_spring_test.Service.impl.TaskServiceImp;
 import com.felipe_dias.backend_java_spring_test.model.Task;
 import com.felipe_dias.backend_java_spring_test.model.User;
+import com.felipe_dias.backend_java_spring_test.model.dto.TaskDTO;
 import com.felipe_dias.backend_java_spring_test.model.enums.Nivel;
 import com.felipe_dias.backend_java_spring_test.model.enums.Status;
 import com.felipe_dias.backend_java_spring_test.repository.TaskRepository;
 import com.felipe_dias.backend_java_spring_test.repository.UserRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +26,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -31,12 +34,12 @@ public class TaskServiceTests {
 
     @Mock
     private TaskRepository taskRepository;
-
+    @InjectMocks
+    private TaskServiceImp taskService;
     @Mock
     private UserRepository userRepository;
 
-    @InjectMocks
-    private TaskServiceImp taskService;
+
 
     @Test
     void testGettingAllTasks(){
@@ -72,7 +75,24 @@ public class TaskServiceTests {
 
     }
 
+    @Test
     void testUpdatingTask(){
+        Date today = new Date();
+
+        User u1 = new User(1L, "user1", Nivel.USER, "1234");
+        Task oldTask = new Task(1L, "task1", "task1", today, today, Status.PENDENTE, u1);
+        Task updatedTask = new Task(1L, "taskUpdated", "taskUpdated", today, today, Status.PENDENTE, u1);
+        TaskDTO dataToUpdateTask = new TaskDTO(updatedTask);
+        Long taskId = oldTask.getId();
+
+        given(taskRepository.save(oldTask)).willReturn(oldTask);
+        given(taskRepository.findById(taskId)).willReturn(Optional.of(oldTask));
+        given(taskRepository.existsById(u1.getId())).willReturn(true);
+        given(taskRepository.save(updatedTask)).willReturn(updatedTask);
+        willDoNothing().given(taskService).updateTask(taskId, dataToUpdateTask);
+
+        Assertions.assertEquals(oldTask, updatedTask);
+
 
     }
 
